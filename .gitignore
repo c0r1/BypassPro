@@ -48,3 +48,4 @@ build/
 /META-INF/
 *.jar
 /qodana.yaml
+/src/test/

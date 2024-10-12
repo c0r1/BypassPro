@@ -1,6 +1,7 @@
 package Burp.Application.Bypass;
 
 import Burp.Bootstrap.Config;
+import Burp.Bootstrap.CustomUtils;
 import Burp.Bootstrap.YamlReader;
 import burp.api.montoya.MontoyaApi;
 
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static Burp.Application.Bypass.GeneratePayload.PathType.*;
 
@@ -210,6 +212,14 @@ public class GeneratePayload {
             prefixList.add(new BaseRequest(editType, fullPath, null));
         });
 
+        List<String> allowedAccessPaths = yamlReader.getStringList(Config.ALLOWED_ACCESS_PATHS);
+        if (allowedAccessPaths != null && !allowedAccessPaths.isEmpty()) {
+            allowedAccessPaths.stream().map(CustomUtils::removeTrailingSlash) // 清理每个路径
+                    .flatMap(cleanAccessPath -> buildPrefixBasedAccessPaths(cleanAccessPath, path).stream()) // 构建前缀路径并扁平化结果
+                    .forEach(prefixBasedAccessPath -> prefixList.add(new BaseRequest(editType, prefixBasedAccessPath, null)) // 创建BaseRequest对象并加入列表
+                    );
+        }
+
         return prefixList;
     }
 
@@ -342,6 +352,20 @@ public class GeneratePayload {
             }
         }
         return result.toString();
+    }
+
+    /**
+     * 生成基于指定前缀路径的路径列表
+     *
+     * @param authFreePath 免认证路径
+     * @param targetPath   目标路径
+     * @return 生成的路径列表
+     */
+    private List<String> buildPrefixBasedAccessPaths(String authFreePath, String targetPath) {
+        List<String> traversalSymbols = yamlReader.getStringList(Config.DIRECTORY_TRAVERSAL_SYMBOLS);
+        int prefixCount = authFreePath.split("/").length - 1;
+
+        return traversalSymbols.stream().map(symbol -> CustomUtils.repeatSymbolWithSlash(symbol, prefixCount)).map(traversalPrefix -> authFreePath + traversalPrefix + targetPath).collect(Collectors.toList());
     }
 
     public enum PathType {

@@ -55,4 +55,32 @@ public class CustomUtils {
 
         return request;
     }
+
+    /**
+     * 移除路径字符串末尾的斜杠（如果存在）
+     *
+     * @param path 路径字符串
+     * @return 处理后的路径字符串
+     */
+    public static String removeTrailingSlash(String path) {
+        return (path != null && path.endsWith("/")) ? path.substring(0, path.length() - 1) : path;
+    }
+
+    /**
+     * 重复给定的字符串，并在每次重复之前添加一个斜杠
+     *
+     * @param symbol 要重复的字符串
+     * @param count  重复次数
+     * @return 重复后的字符串
+     */
+    public static String repeatSymbolWithSlash(String symbol, int count) {
+        if (count < 0) {
+            throw new IllegalArgumentException("Repeat count must be non-negative.");
+        }
+        StringBuilder repeatedSymbol = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            repeatedSymbol.append('/').append(symbol);
+        }
+        return repeatedSymbol.toString();
+    }
 }

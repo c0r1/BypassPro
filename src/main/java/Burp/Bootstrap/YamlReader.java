@@ -23,13 +23,13 @@ public class YamlReader {
     }
 
     public static synchronized YamlReader getInstance(MontoyaApi api) {
-        if (instance == null) {
-            try {
-                instance = new YamlReader(api);
-            } catch (FileNotFoundException e) {
-                api.logging().logToError(e.getMessage());
-            }
+//        if (instance == null) {
+        try {
+            instance = new YamlReader(api);
+        } catch (FileNotFoundException e) {
+            api.logging().logToError(e.getMessage());
         }
+//        }
         return instance;
     }
 

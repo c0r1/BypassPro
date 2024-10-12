@@ -1,4 +1,8 @@
 payload:
+  # 允许访问的路径
+  ALLOWED_ACCESS_PATHS:
+    - '/api/'
+    - '/static/'
   # 前缀绕过
   PREFIX_PAYLOAD:
     - '//'
@@ -9,8 +13,6 @@ payload:
     - '/..%0d'
     - '/..%5c'
     - '/api;/..'
-    - '/api/../'
-    - '/api/..;'
   # 后缀绕过
   SUFFIX_PAYLOAD:
     - ';.ico'
@@ -74,7 +76,10 @@ payload:
     - '.;'
     - '..;'
     - '...;'
+  # 请勿随意更改
   DIRECTORY_TRAVERSAL_SYMBOLS:
+    - '..'
+    - '...'
     - '..;'
     - '...;'
   DEFAULT_ADD_HEADERS_NUM: 10

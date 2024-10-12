@@ -1,6 +1,7 @@
 package Burp.Bootstrap;
 
 public class Config {
+    public final static String ALLOWED_ACCESS_PATHS = "payload.ALLOWED_ACCESS_PATHS";
     public final static String PREFIX_PAYLOAD = "payload.PREFIX_PAYLOAD";
     public final static String SUFFIX_PAYLOAD = "payload.SUFFIX_PAYLOAD";
     //    public final static String BEFORE_HIERARCHY_PATH = "payload.BEFORE_HIERARCHY_PATH";

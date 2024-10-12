@@ -10,7 +10,7 @@ import static Burp.Bootstrap.ThreadPool.clearThreadPool;
 
 public class BypassPro implements BurpExtension, ExtensionUnloadingHandler {
     private final String name = "BypassPro";
-    private final String version = "1.5.0";
+    private final String version = "1.5.1";
     private MontoyaApi api;
     private RootPanel rootPanel;
 
